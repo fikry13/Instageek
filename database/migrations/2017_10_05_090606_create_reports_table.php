@@ -20,6 +20,8 @@ class CreateReportsTable extends Migration
             $table->text('reason');
             $table->enum('status', ['Pending', 'Approved', 'Rejected']);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 
