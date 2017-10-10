@@ -12,5 +12,12 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //$user = new \App\Models\User();
+    //$user->username = 'fikry13';
+    //$user->email = 'fikry13@gmail.com';
+    //$user->password = bcrypt('bleb');
+    //$user->name = 'Fikry Abdullah Aziz';
+    //$user->save();
+
+    //$post = \App\Models\Posts::all();
 });
