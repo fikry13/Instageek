@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class CommentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -35,7 +35,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'comment' => 'required',
+        ]);
+
+        $input = $request->all();
+
+        Comment::create($input);
+
+        return redirect()->back();
     }
 
     /**
@@ -46,8 +54,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::whereId($id)->with(['user', 'likes', 'comments.user'])->first();
-        return view('post')->with('post',$post);
+        //
     }
 
     /**

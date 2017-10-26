@@ -23,12 +23,9 @@
 // });
 
 Auth::routes();
-
-Route::get('/anjing', function()
-{
-    return view('tes');
-});
 Route::get('/', 'DefaultController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/{username}', 'UserController@show');
-Route::get('/p/{post_id}', 'PostController@show');
+Route::resource('/posts', 'PostController');
+Route::resource('/posts/{post_id}/comments', 'CommentController');
+Route::resource('/posts/{post_id}/likes', 'LikeController');

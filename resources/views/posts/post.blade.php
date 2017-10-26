@@ -1,4 +1,8 @@
-@extends('layouts.app')
+@extends('templates.layout')
+
+@section('title')
+    Instageek - post by {{ $post->user->username }}
+@endsection
 
 @section('content')
 <div class="container">

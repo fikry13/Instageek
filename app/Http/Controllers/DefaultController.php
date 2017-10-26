@@ -5,13 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class DefaultController extends Controller
 {
     function index()
     {
-        $post = Post::orderByRaw('RAND()')->take(9)->get();
-        $user = User::orderByRaw('RAND()')->take(4)->get();
-        return view('default')->with('post', $post)->with('user', $user);
+        if (Auth::check()){
+            $followee = Auth::user()->followees()->pluck('id');
+            $post = Post::whereIn('user_id', $followee)
+                ->with(['user', 'likes', 'comments.user'])
+                ->get();
+            return view('default')->with('post', $post);
+        }
+        else{
+            return view('default');
+        }
     }
 }

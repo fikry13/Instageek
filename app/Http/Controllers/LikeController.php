@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class PostController extends Controller
+class LikeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -24,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -35,7 +36,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $postId = $request->input('post_id');
+
+        $post = Post::findOrFail($postId);
+        $post->likes()->attach($request->input('user_id'));
+
+        return redirect()->back();
     }
 
     /**
@@ -46,8 +52,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::whereId($id)->with(['user', 'likes', 'comments.user'])->first();
-        return view('post')->with('post',$post);
+
     }
 
     /**
@@ -58,7 +63,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -70,7 +75,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
     }
 
     /**
@@ -81,6 +86,9 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->likes()->detach(Auth::id());
+
+        return redirect()->back();
     }
 }

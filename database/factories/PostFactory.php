@@ -6,7 +6,7 @@ $factory->define(App\Models\Post::class, function (Faker $faker) {
 	$randomUserId = App\Models\User::pluck('id');
 
     return [
-        'photo' => $faker->imageUrl,
+        'photo' => $faker->imageUrl(720,720),
         'caption' => $faker->sentence,
         'location' => $faker->city,
         'user_id' => $randomUserId->random(),

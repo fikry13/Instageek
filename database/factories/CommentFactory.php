@@ -2,7 +2,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(App\Comment::class, function (Faker $faker) {
+$factory->define(App\Models\Comment::class, function (Faker $faker) {
 	$randomUserId = App\Models\User::pluck('id');
 	$randomPostId = App\Models\Post::pluck('id');
 
