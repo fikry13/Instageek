@@ -23,9 +23,10 @@
 // });
 
 Auth::routes();
-Route::get('/', 'DefaultController@index');
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/{username}', 'UserController@show');
+Route::get('/', 'DefaultController@index')->name('default');
 Route::resource('/posts', 'PostController');
-Route::resource('/posts/{post_id}/comments', 'CommentController');
-Route::resource('/posts/{post_id}/likes', 'LikeController');
+Route::resource('/posts/{post_id}/comments', 'CommentController')->only(['store','destroy']);
+Route::resource('/posts/{post_id}/likes', 'LikeController')->only(['store','destroy']);
+Route::resource('/users', 'UserController')->except(['show']);
+Route::resource('/users/{user_id}/follows', 'FollowController')->only(['store','destroy']);
+Route::get('/{username}', 'UserController@show')->name('userProfile');

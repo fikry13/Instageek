@@ -199,21 +199,22 @@
                 @for ( $i = 0 ; $i < $post->count() ; $i++ )
                     <div class="col-md-6 col-md-offset-3">
                         <div class="card">
+                            <a href="{{ route('userProfile', $post[$i]->user->id) }}">
                             <div class="card-header">
                                 <div class="float-left">
                                     <img src={{ $post[$i]->user->profile_picture }} width="32" heigth="32" class="img-circle" alt="User Image"> <b>{{ $post[$i]->user->username }}</b>
                                 </div>
                             </div>
+                            </a>
                             <div class="card-container">
                                 <img src="{{ $post[$i]->photo }}" class="img-responsive" alt="{{ $post[$i]->caption }}">
                             </div>
                             <div class="card-footer">
-                                @if ($post[$i]->likes->contains(\Illuminate\Support\Facades\Auth::user()))
+                                @if ($post[$i]->likes->contains(auth()->user()))
                                     <form action={{ url('/posts/'.$post[$i]->id.'/likes/'.$post[$i]->id) }} method="post">
                                         {{ csrf_field() }}
                                         {{ method_field('DELETE') }}
                                         <input type="hidden" name="post_id" value={{ $post[$i]->id }} class="form-control">
-                                        <input type="hidden" name="user_id" value={{ \Illuminate\Support\Facades\Auth::id() }} class="form-control">
                                         <button type="submit" class="btn btn-default btn-flat btn-block bg-pink">
                                             <i class="fa fa-heart"></i> Dislike
                                         </button>
@@ -222,7 +223,6 @@
                                     <form action={{ url('/posts/'.$post[$i]->id.'/likes') }} method="post">
                                         {{ csrf_field() }}
                                         <input type="hidden" name="post_id" value={{ $post[$i]->id }} class="form-control">
-                                        <input type="hidden" name="user_id" value={{ \Illuminate\Support\Facades\Auth::id() }} class="form-control">
                                         <button type="submit" class="btn btn-default btn-flat btn-block bg-pink">
                                             <i class="fa fa-heart-o"></i> Like
                                         </button>
@@ -240,11 +240,11 @@
                                     <br>
                                 @endforeach
                                 <hr>
-                                <form action={{ url('/posts/'.$post[$i]->id.'/comments') }} method="post">
+                                <form action={{ route('comments.store', ['post_id' => $post[$i]->id]) }} method="post">
                                     {{ csrf_field() }}
                                     <div class="input-group{{ $errors->has('comment') ? ' has-error' : '' }}">
                                         <input type="hidden" name="post_id" value={{ $post[$i]->id }} class="form-control">
-                                        <input type="hidden" name="user_id" value={{ \Illuminate\Support\Facades\Auth::id() }} class="form-control">
+                                        <input type="hidden" name="user_id" value={{ auth()->id() }} class="form-control">
                                         <input type="text" name="comment" placeholder="Type Your Comment ..." value="{{ old('comment') }}" class="form-control">
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-default btn-flat">

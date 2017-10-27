@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class LikeController extends Controller
+class FollowController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class LikeController extends Controller
      */
     public function index()
     {
-
+        //
     }
 
     /**
@@ -25,7 +25,7 @@ class LikeController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -36,10 +36,10 @@ class LikeController extends Controller
      */
     public function store(Request $request)
     {
-        $postId = $request->input('post_id');
+        $followeeId = $request->input('followee_id');
 
-        $post = Post::findOrFail($postId);
-        $post->likes()->attach(Auth::id());
+        $followee = User::findOrFail($followeeId);
+        Auth::user()->followees()->attach($followee);
 
         return redirect()->back();
     }
@@ -52,7 +52,7 @@ class LikeController extends Controller
      */
     public function show($id)
     {
-
+        //
     }
 
     /**
@@ -63,7 +63,7 @@ class LikeController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -75,7 +75,7 @@ class LikeController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //
     }
 
     /**
@@ -84,10 +84,10 @@ class LikeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $followee)
     {
-        $post = Post::findOrFail($id);
-        $post->likes()->detach(Auth::id());
+        $followee = User::findOrFail($followee);
+        Auth::user()->followees()->detach($followee);
 
         return redirect()->back();
     }
