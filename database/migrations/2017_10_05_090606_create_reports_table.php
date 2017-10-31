@@ -15,11 +15,13 @@ class CreateReportsTable extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('post_id');
-            $table->integer('user_id');
+            $table->unsignedInteger('post_id');
+            $table->unsignedInteger('user_id');
             $table->text('reason');
-            $table->enum('status', ['pending', 'approved', 'rejected']);
+            $table->enum('status', ['Pending', 'Approved', 'Rejected']);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('post_id')->references('id')->on('posts');
         });
     }
 

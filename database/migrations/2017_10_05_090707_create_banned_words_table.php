@@ -15,9 +15,10 @@ class CreateBannedWordsTable extends Migration
     {
         Schema::create('banned_words', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->varchar('word');
+            $table->unsignedInteger('user_id');
+            $table->string('words');
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
