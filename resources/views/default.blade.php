@@ -190,7 +190,7 @@
         @auth
             <div class="row">
                 <div class="col-md-6 col-md-offset-3">
-                    <a href="#" class="btn btn-primary btn-block btn-lg">
+                    <a href="{{  route('posts.create') }}" class="btn btn-primary btn-block btn-lg">
                         <i class="fa fa-plus"></i> New Post
                     </a>
                 </div>
@@ -201,13 +201,11 @@
                         <div class="card">
                             <a href="{{ route('userProfile', $post[$i]->user->id) }}">
                             <div class="card-header">
-                                <div class="float-left">
-                                    <img src={{ $post[$i]->user->profile_picture }} width="32" heigth="32" class="img-circle" alt="User Image"> <b>{{ $post[$i]->user->username }}</b>
-                                </div>
+                                <img src={{ asset($post[$i]->user->profile_picture) }} width="32" heigth="32" class="img-circle" alt="User Image"> <b>{{ $post[$i]->user->username }}</b>
                             </div>
                             </a>
                             <div class="card-container">
-                                <img src="{{ $post[$i]->photo }}" class="img-responsive" alt="{{ $post[$i]->caption }}">
+                                <img src="{{ asset($post[$i]->photo) }}" class="img-responsive" alt="{{ $post[$i]->caption }}">
                             </div>
                             <div class="card-footer">
                                 @if ($post[$i]->likes->contains(auth()->user()))
@@ -229,12 +227,18 @@
                                     </form>
                                 @endif
                                 <br>
-                                <i class="fa fa-heart-o"></i>
-                                <b>
-                                    {{ $post[$i]->likes->implode('username',', ') }}
-                                </b>
-                                <br>
-                                <hr>
+                                @if($post[$i]->likes->count() > 0)
+                                    <i class="fa fa-heart-o"></i>
+                                    <b>
+                                        {{ $post[$i]->likes->implode('username',', ') }}
+                                    </b>
+                                    <br>
+                                    <hr>
+                                @endif
+                                @if($post[$i]->caption != null || $post[$i]->caption != '')
+                                    <b>{{ $post[$i]->user->username }}</b> {{ $post[$i]->caption }}
+                                    <br>
+                                @endif
                                 @foreach ($post[$i]->comments as $comment)
                                     <b>{{ $comment->user->username }}</b> {{ $comment->comment }}
                                     <br>

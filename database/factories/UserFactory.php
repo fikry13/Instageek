@@ -25,6 +25,5 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
         'bio' => $faker->sentence,
         'website' => $faker->domainName,
         'phone' => $faker->phoneNumber,
-        'profile_picture' => $faker->imageUrl(720,720,'people'),
     ];
 });

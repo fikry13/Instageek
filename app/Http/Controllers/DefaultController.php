@@ -13,8 +13,10 @@ class DefaultController extends Controller
     {
         if (Auth::check()){
             $followee = Auth::user()->followees()->pluck('id');
+            $followee[] = Auth::id();
             $post = Post::whereIn('user_id', $followee)
                 ->with(['user', 'likes', 'comments.user'])
+                ->orderBy('created_at')
                 ->get();
             return view('default')->with('post', $post);
         }

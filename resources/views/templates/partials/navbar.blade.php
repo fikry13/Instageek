@@ -91,9 +91,9 @@
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="{{ route('userProfile', auth()->id()) }}">
                                 <!-- The user image in the navbar-->
-                                <img src={{ Auth::user()->profile_picture }} width="160" heigth="160" class="user-image" alt="User Image">
+                                <img src={{ asset(Auth::user()->profile_picture) }} width="160" heigth="160" class="user-image" alt="User Image">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">{{ Auth::user()->username }}</span>
                             </a>

@@ -8,22 +8,18 @@ use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
     {
         //
     }
@@ -40,42 +36,9 @@ class FollowController extends Controller
 
         $followee = User::findOrFail($followeeId);
         Auth::user()->followees()->attach($followee);
+        $followee->followers()->attach(Auth::user());
 
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
     }
 
     /**
@@ -88,6 +51,7 @@ class FollowController extends Controller
     {
         $followee = User::findOrFail($followee);
         Auth::user()->followees()->detach($followee);
+        $followee->followers()->detach(Auth::user());
 
         return redirect()->back();
     }
